@@ -1,0 +1,6 @@
+*.png
+.DS_Store
+.Rhistory
+*.txt
+.Rproj.user
+NEU_Ptot_TOUT.R
