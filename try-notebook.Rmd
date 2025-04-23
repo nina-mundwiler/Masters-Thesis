@@ -1,0 +1,62 @@
+---
+title: "Analyse Complète des Précipitations à NEU"
+author: "Conversion automatique"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r libraries}
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(zoo)
+read.table("NEU_rre150d0.txt",header=T,as.is=F)
+```
+
+```{r libraries}
+read.table("NEU_rre150d0.txt",header=T,as.is=F)
+
+NEU_sommeP <- NEU_rre150d0
+colnames(NEU_sommeP)[2] <- "date"
+colnames(NEU_sommeP)[3] <- "precip"
+
+sum(is.na(NEU_sommeP))
+
+NEU_sommeP$date <- as.Date(as.character(NEU_sommeP$date), format = "%Y%m%d")
+
+NEU_sommeP$year <- format(NEU_sommeP$date, "%Y")
+NEU_sommeP$month <- format(NEU_sommeP$date, "%m")
+```
+
+```{r}
+#Rx1day : Précipitations maximales sur une journée pendant un mois donné 
+yearly_max <- NEU_sommeP %>% group_by(year) %>%
+  summarise(Yearly_Max_Rx1day = max(precip, na.rm = TRUE),   
+    Date_Max = date[which.max(precip)]) %>%
+  ungroup() %>%mutate(year = as.numeric(year)) 
+```
+
+```{r}
+yearly_max$Dataset <- ifelse(yearly_max$year <= 2010, "homogenized", "non-homogenized")
+
+ggplot(yearly_max, aes(x = year, y = Yearly_Max_Rx1day)) +
+  geom_line(aes(color = Dataset), size = 0.5) +
+  geom_point(aes(color = Dataset)) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linetype = "dashed", size = 0.5) +  
+  geom_smooth(method = "loess", se = FALSE, color = "black", size = 0.5) + 
+  labs(
+    title = "Rx1day: Annual maximum of daily precipitation (NEU)",
+    x = "Year",
+    y = "Daily precipitation (mm)",
+    color = "Dataset",
+    caption = "p-value: non-significant"
+  ) +
+  scale_y_continuous(limits = c(15, 120), breaks = seq(20, 120, by = 10)) +  
+  scale_x_continuous(breaks = seq(1875, 2025, by = 25)) + 
+  scale_color_manual(values = c("homogenized" = "darkblue", "non-homogenized" = "skyblue")) +
+  theme_minimal() +
+  theme(plot.title = element_text(size = 12))
+```
