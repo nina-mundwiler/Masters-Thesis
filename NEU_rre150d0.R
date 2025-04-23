@@ -1,7 +1,5 @@
 #P; somme journalière conventionnelle 6 UTC - 6 UTC du jour suivant;  18631231-20231231
 
-# test 1
-
 read.table("NEU_rre150d0.txt",header=T,as.is=F)
 
 NEU_sommeP <- NEU_rre150d0
