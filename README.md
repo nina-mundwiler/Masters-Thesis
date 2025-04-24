@@ -10,7 +10,7 @@ install.packages(c("dplyr", "ggplot2", "zoo"))
 
 The data used in this project was obtained from the official portal of the Swiss Federal Office of Meteorology and Climatology (MeteoSwiss), specifically intended for **educational and research** purposes:
 
-➡️ [MétéoSwiss – Data for Education and Research](https://www.meteosuisse.admin.ch/services-et-publications/service/produits-meteorologiques-et-climatiques/portail-de-donnees-pour-l-enseignement-et-la-recherche.html)
+➡️ [MeteoSwiss – Data for Education and Research](https://www.meteosuisse.admin.ch/services-et-publications/service/produits-meteorologiques-et-climatiques/portail-de-donnees-pour-l-enseignement-et-la-recherche.html)
 
 To access the data:
 
